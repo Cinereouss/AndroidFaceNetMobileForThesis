@@ -1,0 +1,73 @@
+apply plugin: 'com.android.application'
+apply plugin: 'de.undercouch.download'
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion '28.0.3'
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        applicationId "org.tensorflow.lite.examples.facerecognition"
+        minSdkVersion 21
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    aaptOptions {
+        noCompress "tflite"
+    }
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
+    lintOptions {
+        abortOnError false
+    }
+}
+
+// import DownloadModels task
+project.ext.ASSET_DIR = projectDir.toString() + '/src/main/assets'
+project.ext.TMP_DIR   = project.buildDir.toString() + '/downloads'
+
+// Download default models; if you wish to use your own models then
+// place them in the "assets" directory and comment out this line.
+//apply from: "download_model.gradle"
+
+//apply from:'download_model.gradle'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar','*.aar'])
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.coordinatorlayout:coordinatorlayout:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation('org.tensorflow:tensorflow-lite:0.0.0-nightly') { changing = true }
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
+    androidTestImplementation 'com.google.truth:truth:1.0.1'
+
+    // added MLKit dependencies for face detector
+    implementation 'com.google.mlkit:face-detection:16.0.0'
+
+    // Retrofit for calling NodeJS Rest API
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+    //
+    implementation "com.airbnb.android:lottie:3.4.4"
+    implementation "androidx.recyclerview:recyclerview:1.1.0"
+    implementation 'com.king.zxing:zxing-lite:1.1.9'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation 'pub.devrel:easypermissions:3.0.0'
+    implementation 'com.github.GrenderG:Toasty:1.5.0'
+}
